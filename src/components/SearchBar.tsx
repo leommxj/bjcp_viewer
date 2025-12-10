@@ -1,0 +1,137 @@
+import { useAppState } from "@/store/AppContext";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Search, X, LayoutGrid, List, GitCompare } from "lucide-react";
+
+interface SearchBarProps {
+  allTags: string[];
+  onOpenCompare: () => void;
+}
+
+export function SearchBar({ allTags, onOpenCompare }: SearchBarProps) {
+  const { state, dispatch } = useAppState();
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: "SET_SEARCH", payload: e.target.value });
+  };
+
+  const handleTagClick = (tag: string) => {
+    dispatch({ type: "TOGGLE_TAG", payload: tag });
+  };
+
+  const handleClearFilters = () => {
+    dispatch({ type: "CLEAR_FILTERS" });
+  };
+
+  const hasActiveFilters =
+    state.searchQuery || state.selectedTags.length > 0 || state.selectedCategory;
+
+  return (
+    <div className="border-b bg-card p-4 space-y-3">
+      <div className="flex items-center gap-3">
+        {/* Search Input */}
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Search styles, ingredients, examples..."
+            value={state.searchQuery}
+            onChange={handleSearchChange}
+            className="pl-9"
+          />
+          {state.searchQuery && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              onClick={() => dispatch({ type: "SET_SEARCH", payload: "" })}
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          )}
+        </div>
+
+        {/* View Mode Toggle */}
+        <div className="flex items-center border rounded-md">
+          <Button
+            variant={state.viewMode === "card" ? "secondary" : "ghost"}
+            size="sm"
+            className="rounded-r-none"
+            onClick={() => dispatch({ type: "SET_VIEW_MODE", payload: "card" })}
+          >
+            <LayoutGrid className="w-4 h-4" />
+          </Button>
+          <Button
+            variant={state.viewMode === "list" ? "secondary" : "ghost"}
+            size="sm"
+            className="rounded-l-none"
+            onClick={() => dispatch({ type: "SET_VIEW_MODE", payload: "list" })}
+          >
+            <List className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* Compare Button */}
+        <Button
+          variant={state.compareList.length > 0 ? "default" : "outline"}
+          size="sm"
+          onClick={onOpenCompare}
+          disabled={state.compareList.length === 0}
+        >
+          <GitCompare className="w-4 h-4 mr-2" />
+          Compare ({state.compareList.length})
+        </Button>
+
+        {/* Clear Filters */}
+        {hasActiveFilters && (
+          <Button variant="ghost" size="sm" onClick={handleClearFilters}>
+            <X className="w-4 h-4 mr-1" />
+            Clear
+          </Button>
+        )}
+      </div>
+
+      {/* Tags */}
+      <ScrollArea className="w-full whitespace-nowrap">
+        <div className="flex gap-2 pb-2">
+          {allTags.slice(0, 30).map((tag) => (
+            <Badge
+              key={tag}
+              variant={state.selectedTags.includes(tag) ? "default" : "outline"}
+              onClick={() => handleTagClick(tag)}
+              className="shrink-0"
+            >
+              {tag}
+            </Badge>
+          ))}
+          {allTags.length > 30 && (
+            <span className="text-xs text-muted-foreground self-center">
+              +{allTags.length - 30} more
+            </span>
+          )}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+
+      {/* Active Tag Filters */}
+      {state.selectedTags.length > 0 && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs text-muted-foreground">Active filters:</span>
+          {state.selectedTags.map((tag) => (
+            <Badge
+              key={tag}
+              variant="default"
+              onClick={() => handleTagClick(tag)}
+              className="gap-1"
+            >
+              {tag}
+              <X className="w-3 h-3" />
+            </Badge>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

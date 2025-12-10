@@ -1,16 +1,16 @@
+**Code written by LLM, directed by humans**
+
 # BJCP Viewer
 
-Viewer for BJCP Beer Style Guidelines 2021
+Viewer for BJCP Beer Style Guidelines 2021.
 
-bjcp json files are from https://github.com/beerjson/bjcp-json
-
-using https://github.com/KevinVandy/material-react-table
+Data from https://github.com/beerjson/bjcp-json
 
 ## Usage
 
 ```bash
 npm install
-npm run dev
-# or generate files
-npm run build
+npm run dev      # development server
+npm run build    # build static files
+npm run deploy   # deploy to GitHub Pages
 ```
