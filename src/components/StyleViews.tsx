@@ -3,7 +3,7 @@ import { useAppState } from "@/store/AppContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Star, Plus, Check } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import { parseTags, formatRange, getSRMColor, getAverageSRM } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -14,15 +14,9 @@ interface StyleCardProps {
 
 export function StyleCard({ style, onClick }: StyleCardProps) {
   const { state, dispatch } = useAppState();
-  const isFavorite = state.favorites.includes(style.style_id);
   const isInCompare = state.compareList.includes(style.style_id);
   const tags = parseTags(style.tags).slice(0, 4);
   const srmColor = getSRMColor(getAverageSRM(style.color));
-
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch({ type: "TOGGLE_FAVORITE", payload: style.style_id });
-  };
 
   const handleCompareClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -55,29 +49,19 @@ export function StyleCard({ style, onClick }: StyleCardProps) {
               <p className="text-xs text-muted-foreground">{style.category}</p>
             </div>
           </div>
-          <div className="flex gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn("h-8 w-8", isFavorite && "text-yellow-500")}
-              onClick={handleFavoriteClick}
-            >
-              <Star className={cn("w-4 h-4", isFavorite && "fill-current")} />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn("h-8 w-8", isInCompare && "text-primary")}
-              onClick={handleCompareClick}
-              disabled={!isInCompare && state.compareList.length >= 4}
-            >
-              {isInCompare ? (
-                <Check className="w-4 h-4" />
-              ) : (
-                <Plus className="w-4 h-4" />
-              )}
-            </Button>
-          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn("h-8 w-8", isInCompare && "text-primary")}
+            onClick={handleCompareClick}
+            disabled={!isInCompare && state.compareList.length >= 4}
+          >
+            {isInCompare ? (
+              <Check className="w-4 h-4" />
+            ) : (
+              <Plus className="w-4 h-4" />
+            )}
+          </Button>
         </div>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -130,14 +114,8 @@ interface StyleListItemProps {
 
 export function StyleListItem({ style, onClick }: StyleListItemProps) {
   const { state, dispatch } = useAppState();
-  const isFavorite = state.favorites.includes(style.style_id);
   const isInCompare = state.compareList.includes(style.style_id);
   const srmColor = getSRMColor(getAverageSRM(style.color));
-
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch({ type: "TOGGLE_FAVORITE", payload: style.style_id });
-  };
 
   const handleCompareClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -177,29 +155,19 @@ export function StyleListItem({ style, onClick }: StyleListItemProps) {
       </div>
 
       {/* Actions */}
-      <div className="flex gap-1">
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn("h-8 w-8", isFavorite && "text-yellow-500")}
-          onClick={handleFavoriteClick}
-        >
-          <Star className={cn("w-4 h-4", isFavorite && "fill-current")} />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn("h-8 w-8", isInCompare && "text-primary")}
-          onClick={handleCompareClick}
-          disabled={!isInCompare && state.compareList.length >= 4}
-        >
-          {isInCompare ? (
-            <Check className="w-4 h-4" />
-          ) : (
-            <Plus className="w-4 h-4" />
-          )}
-        </Button>
-      </div>
+      <Button
+        variant="ghost"
+        size="icon"
+        className={cn("h-8 w-8", isInCompare && "text-primary")}
+        onClick={handleCompareClick}
+        disabled={!isInCompare && state.compareList.length >= 4}
+      >
+        {isInCompare ? (
+          <Check className="w-4 h-4" />
+        ) : (
+          <Plus className="w-4 h-4" />
+        )}
+      </Button>
     </div>
   );
 }

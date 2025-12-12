@@ -2,18 +2,20 @@ import { Category } from "@/types";
 import { useAppState } from "@/store/AppContext";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Beer, Star } from "lucide-react";
+import { ChevronRight, Beer } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   categories: Category[];
+  onNavigate?: () => void;
 }
 
-export function Sidebar({ categories }: SidebarProps) {
+export function Sidebar({ categories, onNavigate }: SidebarProps) {
   const { state, dispatch } = useAppState();
 
   const handleCategoryClick = (categoryId: string | null) => {
     dispatch({ type: "SET_CATEGORY", payload: categoryId });
+    onNavigate?.();
   };
 
   return (
@@ -33,23 +35,10 @@ export function Sidebar({ categories }: SidebarProps) {
           {/* All Styles */}
           <Button
             variant={state.selectedCategory === null ? "secondary" : "ghost"}
-            className="w-full justify-start mb-1"
+            className="w-full justify-start mb-2"
             onClick={() => handleCategoryClick(null)}
           >
             <span className="truncate">All Styles</span>
-          </Button>
-
-          {/* Favorites */}
-          <Button
-            variant={state.selectedCategory === "favorites" ? "secondary" : "ghost"}
-            className="w-full justify-start mb-2"
-            onClick={() => handleCategoryClick("favorites")}
-          >
-            <Star className="w-4 h-4 mr-2 text-yellow-500" />
-            <span className="truncate">Favorites</span>
-            <span className="ml-auto text-xs text-muted-foreground">
-              {state.favorites.length}
-            </span>
           </Button>
 
           <div className="border-t my-2" />

@@ -7,6 +7,7 @@ import { StyleCard, StyleListItem } from "@/components/StyleViews";
 import { StyleDetail } from "@/components/StyleDetail";
 import { CompareDialog } from "@/components/CompareDialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import {
   groupByCategory,
   getAllTags,
@@ -21,6 +22,7 @@ export default function App() {
   const [selectedStyle, setSelectedStyle] = useState<BeerStyle | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Memoized data processing
   const categories = useMemo(() => groupByCategory(styles), []);
@@ -28,51 +30,50 @@ export default function App() {
 
   // Filter styles based on current state
   const filteredStyles = useMemo(() => {
-    // Handle favorites special case
-    if (state.selectedCategory === "favorites") {
-      const favoriteStyles = styles.filter((s) =>
-        state.favorites.includes(s.style_id)
-      );
-      return filterStyles(
-        favoriteStyles,
-        state.searchQuery,
-        null,
-        state.selectedTags
-      );
-    }
-
     return filterStyles(
       styles,
       state.searchQuery,
       state.selectedCategory,
       state.selectedTags
     );
-  }, [
-    state.searchQuery,
-    state.selectedCategory,
-    state.selectedTags,
-    state.favorites,
-  ]);
+  }, [state.searchQuery, state.selectedCategory, state.selectedTags]);
 
   const handleStyleClick = (style: BeerStyle) => {
     setSelectedStyle(style);
     setDetailOpen(true);
   };
 
+  const handleSidebarClose = () => {
+    setSidebarOpen(false);
+  };
+
   return (
     <div className="h-screen flex">
-      {/* Sidebar */}
-      <Sidebar categories={categories} />
+      {/* Desktop Sidebar */}
+      <div className="hidden md:block">
+        <Sidebar categories={categories} />
+      </div>
+
+      {/* Mobile Sidebar (Sheet) */}
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <SheetContent side="left" className="p-0 w-64">
+          <Sidebar categories={categories} onNavigate={handleSidebarClose} />
+        </SheetContent>
+      </Sheet>
 
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Search and filters */}
-        <SearchBar allTags={allTags} onOpenCompare={() => setCompareOpen(true)} />
+        <SearchBar
+          allTags={allTags}
+          onOpenCompare={() => setCompareOpen(true)}
+          onOpenSidebar={() => setSidebarOpen(true)}
+        />
 
         {/* Results count */}
         <div className="px-4 py-2 text-sm text-muted-foreground border-b">
           Showing {filteredStyles.length} of {styles.length} styles
-          {state.selectedCategory && state.selectedCategory !== "favorites" && (
+          {state.selectedCategory && (
             <span>
               {" "}
               in{" "}
@@ -80,9 +81,6 @@ export default function App() {
                 {categories.find((c) => c.id === state.selectedCategory)?.name}
               </span>
             </span>
-          )}
-          {state.selectedCategory === "favorites" && (
-            <span className="text-foreground"> (Favorites)</span>
           )}
         </div>
 
@@ -94,7 +92,7 @@ export default function App() {
                 No styles found matching your criteria.
               </div>
             ) : state.viewMode === "card" ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {filteredStyles.map((style) => (
                   <StyleCard
                     key={style.style_id}

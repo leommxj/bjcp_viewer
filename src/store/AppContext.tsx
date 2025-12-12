@@ -8,7 +8,6 @@ const initialState: AppState = {
   selectedCategory: null,
   selectedTags: [],
   viewMode: "card",
-  favorites: [],
   compareList: [],
 };
 
@@ -18,7 +17,6 @@ type Action =
   | { type: "SET_TAGS"; payload: string[] }
   | { type: "TOGGLE_TAG"; payload: string }
   | { type: "SET_VIEW_MODE"; payload: ViewMode }
-  | { type: "TOGGLE_FAVORITE"; payload: string }
   | { type: "ADD_TO_COMPARE"; payload: string }
   | { type: "REMOVE_FROM_COMPARE"; payload: string }
   | { type: "CLEAR_COMPARE" }
@@ -41,12 +39,6 @@ function reducer(state: AppState, action: Action): AppState {
     }
     case "SET_VIEW_MODE":
       return { ...state, viewMode: action.payload };
-    case "TOGGLE_FAVORITE": {
-      const favorites = state.favorites.includes(action.payload)
-        ? state.favorites.filter((id) => id !== action.payload)
-        : [...state.favorites, action.payload];
-      return { ...state, favorites };
-    }
     case "ADD_TO_COMPARE": {
       if (state.compareList.length >= 4) return state;
       if (state.compareList.includes(action.payload)) return state;
@@ -92,7 +84,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
         dispatch({
           type: "LOAD_STATE",
           payload: {
-            favorites: parsed.favorites || [],
             viewMode: parsed.viewMode || "card",
           },
         });
@@ -102,20 +93,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Persist favorites and viewMode
+  // Persist viewMode
   useEffect(() => {
     try {
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
-          favorites: state.favorites,
           viewMode: state.viewMode,
         })
       );
     } catch (e) {
       console.error("Failed to save state:", e);
     }
-  }, [state.favorites, state.viewMode]);
+  }, [state.viewMode]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

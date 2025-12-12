@@ -3,14 +3,15 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Search, X, LayoutGrid, List, GitCompare } from "lucide-react";
+import { Search, X, LayoutGrid, List, GitCompare, Menu } from "lucide-react";
 
 interface SearchBarProps {
   allTags: string[];
   onOpenCompare: () => void;
+  onOpenSidebar: () => void;
 }
 
-export function SearchBar({ allTags, onOpenCompare }: SearchBarProps) {
+export function SearchBar({ allTags, onOpenCompare, onOpenSidebar }: SearchBarProps) {
   const { state, dispatch } = useAppState();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,14 +30,24 @@ export function SearchBar({ allTags, onOpenCompare }: SearchBarProps) {
     state.searchQuery || state.selectedTags.length > 0 || state.selectedCategory;
 
   return (
-    <div className="border-b bg-card p-4 space-y-3">
-      <div className="flex items-center gap-3">
+    <div className="border-b bg-card p-3 md:p-4 space-y-3">
+      <div className="flex items-center gap-2 md:gap-3">
+        {/* Mobile menu button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden shrink-0"
+          onClick={onOpenSidebar}
+        >
+          <Menu className="w-5 h-5" />
+        </Button>
+
         {/* Search Input */}
-        <div className="relative flex-1 max-w-md">
+        <div className="relative flex-1 min-w-0">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Search styles, ingredients, examples..."
+            placeholder="Search styles..."
             value={state.searchQuery}
             onChange={handleSearchChange}
             className="pl-9"
@@ -54,7 +65,7 @@ export function SearchBar({ allTags, onOpenCompare }: SearchBarProps) {
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex items-center border rounded-md">
+        <div className="hidden sm:flex items-center border rounded-md">
           <Button
             variant={state.viewMode === "card" ? "secondary" : "ghost"}
             size="sm"
@@ -79,14 +90,16 @@ export function SearchBar({ allTags, onOpenCompare }: SearchBarProps) {
           size="sm"
           onClick={onOpenCompare}
           disabled={state.compareList.length === 0}
+          className="shrink-0"
         >
-          <GitCompare className="w-4 h-4 mr-2" />
-          Compare ({state.compareList.length})
+          <GitCompare className="w-4 h-4 sm:mr-2" />
+          <span className="hidden sm:inline">Compare ({state.compareList.length})</span>
+          <span className="sm:hidden">{state.compareList.length}</span>
         </Button>
 
         {/* Clear Filters */}
         {hasActiveFilters && (
-          <Button variant="ghost" size="sm" onClick={handleClearFilters}>
+          <Button variant="ghost" size="sm" onClick={handleClearFilters} className="hidden sm:flex">
             <X className="w-4 h-4 mr-1" />
             Clear
           </Button>
@@ -101,7 +114,7 @@ export function SearchBar({ allTags, onOpenCompare }: SearchBarProps) {
               key={tag}
               variant={state.selectedTags.includes(tag) ? "default" : "outline"}
               onClick={() => handleTagClick(tag)}
-              className="shrink-0"
+              className="shrink-0 cursor-pointer"
             >
               {tag}
             </Badge>
@@ -124,12 +137,17 @@ export function SearchBar({ allTags, onOpenCompare }: SearchBarProps) {
               key={tag}
               variant="default"
               onClick={() => handleTagClick(tag)}
-              className="gap-1"
+              className="gap-1 cursor-pointer"
             >
               {tag}
               <X className="w-3 h-3" />
             </Badge>
           ))}
+          {hasActiveFilters && (
+            <Button variant="ghost" size="sm" onClick={handleClearFilters} className="sm:hidden h-6 px-2 text-xs">
+              Clear all
+            </Button>
+          )}
         </div>
       )}
     </div>

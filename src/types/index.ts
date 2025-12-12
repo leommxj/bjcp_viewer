@@ -50,6 +50,5 @@ export interface AppState {
   selectedCategory: string | null;
   selectedTags: string[];
   viewMode: ViewMode;
-  favorites: string[]; // style_ids
   compareList: string[]; // style_ids (max 4)
 }

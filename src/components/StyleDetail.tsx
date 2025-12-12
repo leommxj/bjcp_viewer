@@ -8,11 +8,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Star, Plus, Check } from "lucide-react";
+import { Plus, Check, X } from "lucide-react";
 import { parseTags, formatRange, getSRMColor, getAverageSRM } from "@/lib/data";
-import { cn } from "@/lib/utils";
 
 interface StyleDetailProps {
   style: BeerStyle | null;
@@ -25,14 +23,9 @@ export function StyleDetail({ style, open, onClose }: StyleDetailProps) {
 
   if (!style) return null;
 
-  const isFavorite = state.favorites.includes(style.style_id);
   const isInCompare = state.compareList.includes(style.style_id);
   const tags = parseTags(style.tags);
   const srmColor = getSRMColor(getAverageSRM(style.color));
-
-  const handleFavoriteClick = () => {
-    dispatch({ type: "TOGGLE_FAVORITE", payload: style.style_id });
-  };
 
   const handleCompareClick = () => {
     if (isInCompare) {
@@ -62,17 +55,21 @@ export function StyleDetail({ style, open, onClose }: StyleDetailProps) {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col p-0">
-        <DialogHeader className="p-6 pb-0">
-          <div className="flex items-start gap-4">
+      <DialogContent
+        hideCloseButton
+        className="max-w-3xl h-[90vh] flex flex-col p-0"
+      >
+        {/* Fixed Header */}
+        <DialogHeader className="p-4 md:p-6 pb-4 shrink-0 border-b">
+          <div className="flex items-start gap-3 md:gap-4 pr-8">
             {/* Color bar */}
             <div
-              className="w-6 h-16 rounded shrink-0"
+              className="w-4 md:w-6 h-12 md:h-16 rounded shrink-0"
               style={{ backgroundColor: srmColor }}
               title={`SRM: ${formatRange(style.color)}`}
             />
-            <div className="flex-1">
-              <DialogTitle className="text-xl">
+            <div className="flex-1 min-w-0">
+              <DialogTitle className="text-lg md:text-xl">
                 <span className="text-muted-foreground mr-2">{style.style_id}</span>
                 {style.name}
               </DialogTitle>
@@ -80,133 +77,135 @@ export function StyleDetail({ style, open, onClose }: StyleDetailProps) {
                 {style.category}
               </p>
             </div>
-            <div className="flex gap-2">
-              <Button
-                variant={isFavorite ? "default" : "outline"}
-                size="sm"
-                onClick={handleFavoriteClick}
-              >
-                <Star className={cn("w-4 h-4 mr-1", isFavorite && "fill-current")} />
-                {isFavorite ? "Favorited" : "Favorite"}
-              </Button>
-              <Button
-                variant={isInCompare ? "default" : "outline"}
-                size="sm"
-                onClick={handleCompareClick}
-                disabled={!isInCompare && state.compareList.length >= 4}
-              >
-                {isInCompare ? (
-                  <>
-                    <Check className="w-4 h-4 mr-1" />
-                    In Compare
-                  </>
-                ) : (
-                  <>
-                    <Plus className="w-4 h-4 mr-1" />
-                    Compare
-                  </>
-                )}
-              </Button>
-            </div>
+            <Button
+              variant={isInCompare ? "default" : "outline"}
+              size="sm"
+              onClick={handleCompareClick}
+              disabled={!isInCompare && state.compareList.length >= 4}
+              className="shrink-0"
+            >
+              {isInCompare ? (
+                <>
+                  <Check className="w-4 h-4 mr-1" />
+                  <span className="hidden sm:inline">In Compare</span>
+                </>
+              ) : (
+                <>
+                  <Plus className="w-4 h-4 mr-1" />
+                  <span className="hidden sm:inline">Compare</span>
+                </>
+              )}
+            </Button>
           </div>
+          {/* Custom close button */}
+          <button
+            onClick={onClose}
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </button>
         </DialogHeader>
 
-        <ScrollArea className="flex-1 px-6">
-          <Tabs defaultValue="details" className="w-full">
-            <TabsList className="mb-4">
-              <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="stats">Vital Statistics</TabsTrigger>
-            </TabsList>
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="px-4 md:px-6 py-4">
+            <Tabs defaultValue="details" className="w-full">
+              <TabsList className="mb-4">
+                <TabsTrigger value="details">Details</TabsTrigger>
+                <TabsTrigger value="stats">Vital Statistics</TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="details" className="space-y-6 pb-6">
-              {sections.map((section) => {
-                const content = style[section.key as keyof BeerStyle] as string;
-                return (
-                  <div key={section.key}>
+              <TabsContent value="details" className="space-y-6">
+                {sections.map((section) => {
+                  const content = style[section.key as keyof BeerStyle] as string;
+                  return (
+                    <div key={section.key}>
+                      <h3 className="font-semibold text-sm text-primary mb-2">
+                        {section.label}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {content}
+                      </p>
+                    </div>
+                  );
+                })}
+
+                {/* Entry Instructions if present */}
+                {style.entry_instructions && (
+                  <div>
                     <h3 className="font-semibold text-sm text-primary mb-2">
-                      {section.label}
+                      Entry Instructions
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      {content}
+                      {style.entry_instructions}
                     </p>
                   </div>
-                );
-              })}
+                )}
 
-              {/* Entry Instructions if present */}
-              {style.entry_instructions && (
+                {/* Tags */}
                 <div>
-                  <h3 className="font-semibold text-sm text-primary mb-2">
-                    Entry Instructions
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {style.entry_instructions}
-                  </p>
+                  <h3 className="font-semibold text-sm text-primary mb-2">Tags</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant={state.selectedTags.includes(tag) ? "default" : "secondary"}
+                        className="cursor-pointer"
+                        onClick={() => handleTagClick(tag)}
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
-              )}
+              </TabsContent>
 
-              {/* Tags */}
-              <div>
-                <h3 className="font-semibold text-sm text-primary mb-2">Tags</h3>
-                <div className="flex flex-wrap gap-2">
-                  {tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant={state.selectedTags.includes(tag) ? "default" : "secondary"}
-                      className="cursor-pointer"
-                      onClick={() => handleTagClick(tag)}
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
+              <TabsContent value="stats">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <StatCard
+                    label="Original Gravity (OG)"
+                    value={formatRange(style.original_gravity)}
+                    description="The density of the wort before fermentation"
+                  />
+                  <StatCard
+                    label="Final Gravity (FG)"
+                    value={formatRange(style.final_gravity)}
+                    description="The density after fermentation"
+                  />
+                  <StatCard
+                    label="Alcohol By Volume (ABV)"
+                    value={formatRange(style.alcohol_by_volume)}
+                    description="Percentage of alcohol content"
+                  />
+                  <StatCard
+                    label="International Bitterness Units (IBU)"
+                    value={formatRange(style.international_bitterness_units)}
+                    description="Measure of hop bitterness"
+                  />
+                  <StatCard
+                    label="Color (SRM)"
+                    value={formatRange(style.color)}
+                    description="Standard Reference Method color scale"
+                    colorPreview={srmColor}
+                  />
                 </div>
-              </div>
-            </TabsContent>
 
-            <TabsContent value="stats" className="pb-6">
-              <div className="grid grid-cols-2 gap-6">
-                <StatCard
-                  label="Original Gravity (OG)"
-                  value={formatRange(style.original_gravity)}
-                  description="The density of the wort before fermentation"
-                />
-                <StatCard
-                  label="Final Gravity (FG)"
-                  value={formatRange(style.final_gravity)}
-                  description="The density after fermentation"
-                />
-                <StatCard
-                  label="Alcohol By Volume (ABV)"
-                  value={formatRange(style.alcohol_by_volume)}
-                  description="Percentage of alcohol content"
-                />
-                <StatCard
-                  label="International Bitterness Units (IBU)"
-                  value={formatRange(style.international_bitterness_units)}
-                  description="Measure of hop bitterness"
-                />
-                <StatCard
-                  label="Color (SRM)"
-                  value={formatRange(style.color)}
-                  description="Standard Reference Method color scale"
-                  colorPreview={srmColor}
-                />
-              </div>
-
-              {/* Category Description */}
-              {style.category_description && (
-                <div className="mt-6 pt-6 border-t">
-                  <h3 className="font-semibold text-sm text-primary mb-2">
-                    Category Description
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {style.category_description}
-                  </p>
-                </div>
-              )}
-            </TabsContent>
-          </Tabs>
-        </ScrollArea>
+                {/* Category Description */}
+                {style.category_description && (
+                  <div className="mt-6 pt-6 border-t">
+                    <h3 className="font-semibold text-sm text-primary mb-2">
+                      Category Description
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {style.category_description}
+                    </p>
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
