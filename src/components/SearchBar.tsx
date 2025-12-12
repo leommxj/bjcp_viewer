@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { useAppState } from "@/store/AppContext";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Search, X, LayoutGrid, List, GitCompare, Menu } from "lucide-react";
+import { Search, X, LayoutGrid, List, GitCompare, Menu, ChevronDown, ChevronUp } from "lucide-react";
 
 interface SearchBarProps {
   allTags: string[];
@@ -13,6 +13,7 @@ interface SearchBarProps {
 
 export function SearchBar({ allTags, onOpenCompare, onOpenSidebar }: SearchBarProps) {
   const { state, dispatch } = useAppState();
+  const [tagsExpanded, setTagsExpanded] = useState(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: "SET_SEARCH", payload: e.target.value });
@@ -107,26 +108,57 @@ export function SearchBar({ allTags, onOpenCompare, onOpenSidebar }: SearchBarPr
       </div>
 
       {/* Tags */}
-      <ScrollArea className="w-full whitespace-nowrap">
-        <div className="flex gap-2 pb-2">
-          {allTags.slice(0, 30).map((tag) => (
-            <Badge
-              key={tag}
-              variant={state.selectedTags.includes(tag) ? "default" : "outline"}
-              onClick={() => handleTagClick(tag)}
-              className="shrink-0 cursor-pointer"
+      <div className="relative">
+        {tagsExpanded ? (
+          <div className="flex flex-wrap gap-2">
+            {allTags.map((tag) => (
+              <Badge
+                key={tag}
+                variant={state.selectedTags.includes(tag) ? "default" : "outline"}
+                onClick={() => handleTagClick(tag)}
+                className="cursor-pointer"
+              >
+                {tag}
+              </Badge>
+            ))}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setTagsExpanded(false)}
+              className="h-6 px-2 text-xs"
             >
-              {tag}
-            </Badge>
-          ))}
-          {allTags.length > 30 && (
-            <span className="text-xs text-muted-foreground self-center">
-              +{allTags.length - 30} more
-            </span>
-          )}
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+              <ChevronUp className="w-3 h-3 mr-1" />
+              Collapse
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <div className="flex-1 overflow-x-auto scrollbar-thin">
+              <div className="flex gap-2 pb-1">
+                {allTags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant={state.selectedTags.includes(tag) ? "default" : "outline"}
+                    onClick={() => handleTagClick(tag)}
+                    className="shrink-0 cursor-pointer"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setTagsExpanded(true)}
+              className="shrink-0 h-6 px-2 text-xs"
+            >
+              <ChevronDown className="w-3 h-3 mr-1" />
+              Expand
+            </Button>
+          </div>
+        )}
+      </div>
 
       {/* Active Tag Filters */}
       {state.selectedTags.length > 0 && (
