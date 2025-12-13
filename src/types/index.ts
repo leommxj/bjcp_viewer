@@ -45,10 +45,18 @@ export interface Category {
 
 export type ViewMode = "card" | "list";
 
+export interface DataSource {
+  id: string;
+  name: string;
+  file: string;
+  description?: string;
+}
+
 export interface AppState {
   searchQuery: string;
   selectedCategory: string | null;
   selectedTags: string[];
   viewMode: ViewMode;
   compareList: string[]; // style_ids (max 4)
+  dataSourceId: string;
 }

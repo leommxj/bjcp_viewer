@@ -1,7 +1,49 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from "react";
-import { AppState, ViewMode } from "@/types";
+import { AppState, ViewMode, DataSource } from "@/types";
 
 const STORAGE_KEY = "bjcp-viewer-state";
+
+// Available data sources
+export const dataSources: DataSource[] = [
+  {
+    id: "bjcp_2021_beer_v1.25",
+    name: "BJCP 2021 Beer",
+    file: "bjcp_2021_beer.json",
+    description: "Beer Judge Certification Program 2021 Beer Style Guidelines v1.25. Data Source: <a href='https://github.com/leommxj/bjcp_beerjson_converter' target='_blank' rel='noopener noreferrer'>bjcp_beerjson_converter</a>",
+  },
+  {
+    id: "bjcp_2021_beer_beerjson",
+    name: "BJCP 2021 Beer From beerjson/bjcp-json",
+    file: "bjcp_styleguide-2021.json",
+    description: "Beer Judge Certification Program 2021 Beer Style Guidelines. Data Source: <a href='https://github.com/beerjson/bjcp-json' target='_blank' rel='noopener noreferrer'>beerjson/bjcp-json</a>",
+  },
+  {
+    id: "bjcp_2015_beer",
+    name: "BJCP 2015 Beer",
+    file: "bjcp_2015_beer.json",
+    description: "Beer Judge Certification Program 2015 Beer Style Guidelines. Data Source: <a href='https://github.com/leommxj/bjcp_beerjson_converter' target='_blank' rel='noopener noreferrer'>bjcp_beerjson_converter</a>",
+  },
+  {
+    id: "bjcp_2015_mead",
+    name: "BJCP 2015 Mead",
+    file: "bjcp_2015_mead.json",
+    description: "Beer Judge Certification Program 2015 Mead Style Guidelines. Data Source: <a href='https://github.com/leommxj/bjcp_beerjson_converter' target='_blank' rel='noopener noreferrer'>bjcp_beerjson_converter</a>",
+  },
+  {
+    id: "bjcp_2015_cider",
+    name: "BJCP 2015 Cider",
+    file: "bjcp_2015_cider.json",
+    description: "Beer Judge Certification Program 2015 Cider Style Guidelines. Data Source: <a href='https://github.com/leommxj/bjcp_beerjson_converter' target='_blank' rel='noopener noreferrer'>bjcp_beerjson_converter</a>",
+  },
+  {
+    id: "bjcp_2025_cider",
+    name: "BJCP 2025 Cider",
+    file: "bjcp_2025_cider.json",
+    description: "Beer Judge Certification Program 2025 Cider Style Guidelines. Data Source: <a href='https://github.com/leommxj/bjcp_beerjson_converter' target='_blank' rel='noopener noreferrer'>bjcp_beerjson_converter</a>",
+  },
+];
+
+const DEFAULT_DATA_SOURCE = "bjcp_2021_beer_v1.25";
 
 const initialState: AppState = {
   searchQuery: "",
@@ -9,6 +51,7 @@ const initialState: AppState = {
   selectedTags: [],
   viewMode: "card",
   compareList: [],
+  dataSourceId: DEFAULT_DATA_SOURCE,
 };
 
 type Action =
@@ -21,6 +64,7 @@ type Action =
   | { type: "REMOVE_FROM_COMPARE"; payload: string }
   | { type: "CLEAR_COMPARE" }
   | { type: "CLEAR_FILTERS" }
+  | { type: "SET_DATA_SOURCE"; payload: string }
   | { type: "LOAD_STATE"; payload: Partial<AppState> };
 
 function reducer(state: AppState, action: Action): AppState {
@@ -58,6 +102,16 @@ function reducer(state: AppState, action: Action): AppState {
         selectedCategory: null,
         selectedTags: [],
       };
+    case "SET_DATA_SOURCE":
+      // Reset filters when changing data source
+      return {
+        ...state,
+        dataSourceId: action.payload,
+        searchQuery: "",
+        selectedCategory: null,
+        selectedTags: [],
+        compareList: [],
+      };
     case "LOAD_STATE":
       return { ...state, ...action.payload };
     default:
@@ -85,6 +139,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           type: "LOAD_STATE",
           payload: {
             viewMode: parsed.viewMode || "card",
+            dataSourceId: parsed.dataSourceId || DEFAULT_DATA_SOURCE,
           },
         });
       }
@@ -93,19 +148,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Persist viewMode
+  // Persist viewMode and dataSourceId
   useEffect(() => {
     try {
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
           viewMode: state.viewMode,
+          dataSourceId: state.dataSourceId,
         })
       );
     } catch (e) {
       console.error("Failed to save state:", e);
     }
-  }, [state.viewMode]);
+  }, [state.viewMode, state.dataSourceId]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
