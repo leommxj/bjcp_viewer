@@ -7,7 +7,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { X, Trash2 } from "lucide-react";
 import { formatRange, getSRMColor, getAverageSRM } from "@/lib/data";
 
@@ -52,9 +51,9 @@ export function CompareDialog({ open, onClose, styles }: CompareDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] flex flex-col">
-        <DialogHeader>
-          <div className="flex items-center justify-between">
+      <DialogContent className="max-w-6xl h-[90vh] flex flex-col p-0">
+        <DialogHeader className="p-6 pb-4 shrink-0 border-b">
+          <div className="flex items-center justify-between pr-8">
             <DialogTitle>Compare Beer Styles</DialogTitle>
             {compareStyles.length > 0 && (
               <Button variant="ghost" size="sm" onClick={handleClearAll}>
@@ -72,10 +71,10 @@ export function CompareDialog({ open, onClose, styles }: CompareDialogProps) {
             Click the + button on style cards to add them.
           </div>
         ) : (
-          <ScrollArea className="flex-1">
+          <div className="flex-1 overflow-auto p-6 pt-0">
             <div className="min-w-[800px]">
               {/* Header row */}
-              <div className="grid gap-4 sticky top-0 bg-background z-10 pb-4 border-b"
+              <div className="grid gap-4 sticky top-0 bg-background z-10 py-4 border-b"
                    style={{ gridTemplateColumns: `150px repeat(${compareStyles.length}, 1fr)` }}>
                 <div></div>
                 {compareStyles.map((style) => (
@@ -144,7 +143,7 @@ export function CompareDialog({ open, onClose, styles }: CompareDialogProps) {
                 </div>
               ))}
             </div>
-          </ScrollArea>
+          </div>
         )}
       </DialogContent>
     </Dialog>
