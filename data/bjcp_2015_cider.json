@@ -1,0 +1,502 @@
+{
+  "beerjson": {
+    "version": 2.01,
+    "styles": [
+      {
+        "name": "New World Cider",
+        "category": "Standard Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C1",
+        "style_id": "C1A",
+        "style_letter": "A",
+        "overall_impression": "A refreshing drink of some substance – not bland or watery. Sweet ciders must not be cloying. Dry ciders must not be too austere.",
+        "aroma": "Sweet or low-alcohol ciders may have apple aroma and flavor. Dry ciders will be more wine-like with some esters. Sugar and acidity should combine to give a refreshing character. Acidity is medium to high, refreshing, but must not be harsh or biting.",
+        "appearance": "Clear to brilliant, pale to medium gold in color.",
+        "mouthfeel": "Medium body. Some tannin should be present for slight to moderate astringency, but little bitterness.",
+        "comments": "An ideal cider serves well as a “session” drink, and suitably accompanies a wide variety of food.",
+        "ingredients": "Common (Winesap, Macintosh, Golden Delicious, Braeburn, Jonathan), multi-use (Northern Spy, Russets, Baldwin), crabapples, any suitable wildings.",
+        "entry_instructions": "Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (5 categories). If OG is substantially above typical range, entrant should explain, e.g., particular variety of apple giving high-gravity juice.",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.045
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.065
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 0.995
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.02
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 5.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 8.0
+          }
+        }
+      },
+      {
+        "name": "English Cider",
+        "category": "Standard Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C1",
+        "style_id": "C1B",
+        "style_letter": "B",
+        "overall_impression": "Generally dry, full-bodied, austere. Complex flavor profile, long finish.",
+        "aroma": "No overt apple character, but various flavors and esters that suggest apples, particularly tannic varieties. English-style ciders commonly go through MLF (see Introduction/Aroma-and-Flavor) which produces desirable spicy/smoky, phenolic, and farmyard/old-horse characters. These flavor notes are positive but not required. If present, they must not dominate; in particular, the phenolic and farmyard notes should not be heavy. A strong farmyard character without spicy/smoky or phenolic suggests a Brettanomyces contamination, which is a fault. Mousiness is a serious fault.",
+        "appearance": "Barely cloudy to brilliant. Medium yellow to amber color.",
+        "mouthfeel": "Full. Moderate to high tannin, perceived as astringency and some bitterness. Carbonation still to moderate. Bottle-fermented or -conditioned ciders may have high carbonation, up to champagne levels, but not gushing or foaming.",
+        "comments": "Sweet examples exist, but dry is most traditional, particularly when considering the drying contributions of tannin.",
+        "ingredients": "Kingston Black, Stoke Red, Dabinett, Porter’s Perfection, Nehou, Yarlington Mill, Major, various Jerseys, etc.",
+        "entry_instructions": "Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (dry through medium-sweet, 4 levels). Entrants MAY specify variety of apple for a single varietal cider; if specified, varietal character will be expected.",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.05
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.075
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 0.995
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.015
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 6.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 9.0
+          }
+        }
+      },
+      {
+        "name": "French Cider",
+        "category": "Standard Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C1",
+        "style_id": "C1C",
+        "style_letter": "C",
+        "overall_impression": "Medium to sweet, full-bodied, rich.",
+        "aroma": "Fruity character/aroma. This may come from slow or arrested fermentation (in the French technique of défécation) or approximated by back-sweetening with juice. Tends to a rich fullness. MLF notes of spicy-smoky, phenolic, and farmyard are common but not required (just as with English style), and must not be pronounced. The French expect more subtle MLF character than do the English.",
+        "appearance": "Clear to brilliant, medium yellow to amber color.",
+        "mouthfeel": "Medium to full, mouth-filling. Moderate tannin, perceived mainly as astringency. Carbonation moderate to champagne-like, but at higher levels it must not gush or foam.",
+        "comments": "Typically made sweet to balance the tannin levels from the traditional apple varieties.",
+        "ingredients": "Nehou, Muscadet de Dieppe, Reine des Pommes, Michelin, etc.",
+        "entry_instructions": "Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (medium to sweet only, 3 levels). Entrants MAY specify variety of apple for a single varietal cider; if specified, varietal character will be expected.",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.05
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.065
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.01
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.02
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 3.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 6.0
+          }
+        }
+      },
+      {
+        "name": "New World Perry",
+        "category": "Standard Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C1",
+        "style_id": "C1D",
+        "style_letter": "D",
+        "overall_impression": "Mild. Medium to medium-sweet. Still to lightly sparkling. Only very slight acetification is acceptable. Mousiness, ropy/oily characters are serious faults.",
+        "aroma": "There is a pear character, but not obviously fruity. It tends toward that of a young white wine. No bitterness.",
+        "appearance": "Slightly cloudy to clear. Generally quite pale.",
+        "mouthfeel": "Relatively full, low to moderate tannin apparent as astringency.",
+        "comments": "Some table pears may contain significant amounts of sorbitol, in which case a dry perry may give an impression of sweetness due to sorbitol in the pears. Perception of sorbitol as sweet is highly variable from one person to the next. Hence, entrants should specify sweetness according to actual residual sugar amount, and judges must be aware that they might perceive more sweetness than how the perry was entered.",
+        "ingredients": "Bartlett, Kiefer, Comice, Conference, etc.",
+        "entry_instructions": "Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (5 categories).",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.05
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.06
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.0
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.02
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 5.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 7.0
+          }
+        }
+      },
+      {
+        "name": "Traditional Perry",
+        "category": "Standard Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C1",
+        "style_id": "C1E",
+        "style_letter": "E",
+        "overall_impression": "Tannic. Medium to medium-sweet. Still to lightly sparkling. Only very slight acetification is acceptable. Mousiness and ropy/oily characters are serious faults.",
+        "aroma": "There is a pear character, but not obviously fruity. It tends toward that of a young white wine. Some slight bitterness.",
+        "appearance": "Slightly cloudy to clear. Generally quite pale.",
+        "mouthfeel": "Relatively full, moderate to high tannin apparent as astringency.",
+        "comments": "Note that a dry perry may give an impression of sweetness due to sorbitol in the pears, and perception of sorbitol as sweet is highly variable from one person to the next. Hence entrants should specify sweetness according to actual residual sugar amount, and judges must be aware that they might perceive more sweetness than how the perry was entered.",
+        "ingredients": "Butt, Gin, Brandy, Barland, Blakeney Red, Thorn, Moorcroft, etc.",
+        "entry_instructions": "Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (5 categories). Entrants MUST state variety of pear(s) used.",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.05
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.07
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.0
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.02
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 5.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 9.0
+          }
+        }
+      },
+      {
+        "name": "New England Cider",
+        "category": "Specialty Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C2",
+        "style_id": "C2A",
+        "style_letter": "A",
+        "overall_impression": "Substantial body and character. Typically relatively dry, but can be somewhat sweet if in balance and not containing hot alcohol.",
+        "aroma": "A flavorful cider with robust apple character, strong alcohol, and derivative flavors from sugar additives; traditionally dry.",
+        "appearance": "Clear to brilliant, pale to medium yellow.",
+        "mouthfeel": "Substantial, alcoholic. Moderate tannin.",
+        "comments": "Additives may include white and brown sugars, molasses, small amounts of honey, and raisins. Additives are intended to raise OG well above that which would be achieved by apples alone. This style is sometimes barrel-aged, in which case there will be oak character as with a barrel-aged wine. If the barrel was formerly used to age spirits, some flavor notes from the spirit (e.g., whisky or rum) may also be present, but must be subtle.",
+        "ingredients": "Northern Spy, Roxbury Russet, Golden Russet, Baldwin, etc.; many traditional New England apples.",
+        "entry_instructions": "Entrants MUST specify if the cider was barrel-fermented or aged. Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (5 levels).",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.06
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.1
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 0.995
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.02
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 7.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 13.0
+          }
+        }
+      },
+      {
+        "name": "Cider with Other Fruit",
+        "category": "Specialty Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C2",
+        "style_id": "C2B",
+        "style_letter": "B",
+        "overall_impression": "Like a white wine with complex flavors. The apple character must marry with the added fruit so that neither one dominates the other.",
+        "aroma": "The cider character must be present and must fit with the other fruits. It is a fault if the added fruit(s) completely dominate; a judge might ask, Would this be different if neutral spirits replaced the cider? A fruit cider should not be like an alco-pop. Oxidation is a fault.",
+        "appearance": "Clear to brilliant. Color appropriate to added fruit, but should not show oxidation characteristics. (For example, red berries should give red-to-purple color, not orange.)",
+        "mouthfeel": "Substantial. May be significantly tannic, depending on fruit added.",
+        "entry_instructions": "Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (5 categories). Entrants MUST specify all fruit(s) and/or fruit juice(s) added.",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.045
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.07
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 0.995
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.01
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 5.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 9.0
+          }
+        }
+      },
+      {
+        "name": "Applewine",
+        "category": "Specialty Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C2",
+        "style_id": "C2C",
+        "style_letter": "C",
+        "overall_impression": "Typically like a dry white wine, balanced, and with low astringency and bitterness.",
+        "aroma": "Comparable to a New World Cider. Cider character must be distinctive. Very dry to sweet, although often dry.",
+        "appearance": "Clear to brilliant, pale to medium-gold. Cloudiness or hazes are inappropriate.",
+        "mouthfeel": "Lighter than other ciders, because higher alcohol is derived from addition of sugar rather than juice. Carbonation may range from still to champagne-like.",
+        "entry_instructions": "Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (5 levels).",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.07
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.1
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 0.995
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.02
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 9.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 12.0
+          }
+        }
+      },
+      {
+        "name": "Ice Cider",
+        "category": "Specialty Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C2",
+        "style_id": "C2D",
+        "style_letter": "D",
+        "aroma": "Fruity, smooth, sweet-tart. Acidity must be enough to prevent it being cloying.",
+        "appearance": "Brilliant. Color is deeper than a standard cider, gold to amber.",
+        "mouthfeel": "Full body. May be tannic (astringent and/or bitter) but this should be slight, to moderate at most.",
+        "ingredients": "Usually North American classic table fruit such as McIntosh or Cortland. 6 BJCP Cider Style Guidelines – 2015 Edition",
+        "entry_instructions": "Entrants MUST specify starting gravity, final gravity or residual sugar, and alcohol level. Entrants MUST specify carbonation level (3 levels).",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.13
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.18
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.06
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.085
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 7.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 13.0
+          }
+        }
+      },
+      {
+        "name": "Cider with Herbs/Spices",
+        "category": "Specialty Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C2",
+        "style_id": "C2E",
+        "style_letter": "E",
+        "overall_impression": "Like a white wine with complex flavors. The apple character must marry with the botanicals and give a balanced result.",
+        "aroma": "The cider character must be present and must fit with the botanicals. As with a fruit cider, it is a fault if the botanicals dominate; a judge might ask, Would this be different if neutral spirits replaced the cider? Oxidation of either the base cider or the additions is a fault.",
+        "appearance": "Clear to brilliant. Color appropriate to added botanicals.",
+        "mouthfeel": "Average or more. Cider may be tannic from effect of botanicals but must not be bitter from over-extraction.",
+        "entry_instructions": "Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (5 categories). Entrants MUST specify all botanicals added. If hops are used, entrant must specify variety/varieties used.",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.045
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.07
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 0.995
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.01
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 5.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 9.0
+          }
+        }
+      },
+      {
+        "name": "Specialty Cider/Perry",
+        "category": "Specialty Cider and Perry",
+        "style_guide": "BJCP2015",
+        "type": "cider",
+        "category_id": "C2",
+        "style_id": "C2F",
+        "style_letter": "F",
+        "aroma": "The cider character must always be present, and must fit with added ingredients. If a spirit barrel was used, the character of the spirit (rum, whiskey, etc.) must be no more than just recognizable; it must not be a substantial element of the flavor.",
+        "appearance": "Clear to brilliant. Color should be that of a standard cider unless other ingredients are expected to contribute color.",
+        "mouthfeel": "Average body, may show tannic (astringent) or heavy body as determined by other ingredients.",
+        "entry_instructions": "Entrants MUST specify all ingredients. Entrants MUST specify carbonation level (3 levels). Entrants MUST specify sweetness (5 categories).",
+        "original_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 1.045
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.1
+          }
+        },
+        "final_gravity": {
+          "minimum": {
+            "unit": "sg",
+            "value": 0.995
+          },
+          "maximum": {
+            "unit": "sg",
+            "value": 1.02
+          }
+        },
+        "alcohol_by_volume": {
+          "minimum": {
+            "unit": "%",
+            "value": 5.0
+          },
+          "maximum": {
+            "unit": "%",
+            "value": 12.0
+          }
+        }
+      }
+    ]
+  }
+}
